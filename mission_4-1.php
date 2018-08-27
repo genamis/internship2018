@@ -7,6 +7,7 @@ $pdo = new PDO($dsn,$user,$password);
 $flag=0;
 
 if(!empty($_POST['edit_no'])){
+//編集内容をフォームに戻す
 	$sql = "SELECT * FROM mission4 where id = :id";//データベース読みだし
 	$stmt = $pdo -> prepare($sql);
 	$stmt->bindParam(":id", $i, PDO::PARAM_INT);
@@ -15,14 +16,11 @@ if(!empty($_POST['edit_no'])){
 	$result = $stmt->fetch(PDO::FETCH_ASSOC); //配列としての呼び出し
 
 	   if($result['pass'] == $_POST['edipass']){
-	   //もし$ediDataの0に入っている数字が$edit1と等しいとき
+	   //もし$result['pass']に入っている数字が$_POST['edipass']と等しいとき
 		$edihidd = $result['id'];
-		//echo $edihidd;
 		$ediname = $result['name'];
-		//echo $ediname;
 		$edicomm = $result['comment'];
-		//echo $edicomm;
-	   //$edinameと$edicommという変数に$ediDataの[1]名前と[2]コメントを入れる
+	   //$edihiddと$edinameと$edicommという変数に$resultのID(行番号)と名前とコメントを入れる
 	   }else{
 		echo 'パスワードが間違っています'."<br>";
 	   }
@@ -56,6 +54,7 @@ $flag=1;
 if($flag==1){}
 else if (!empty($_POST['delete_no'])) {
 //削除対象番号欄が空で無いとき
+//削除機能
 	$sql1 ='SELECT * FROM mission4';
 	$result = $pdo -> query($sql1);
 	$count = 1;
@@ -92,6 +91,7 @@ else if (!empty($_POST['delete_no'])) {
 }
 
 else if(!empty($_POST['hide'])){
+//編集機能
 	$sql = "SELECT * FROM mission4 where id = :id";//データベース読みだし
 	$stmt = $pdo -> prepare($sql);
 	$stmt->bindParam(":id", $i, PDO::PARAM_INT);
@@ -100,7 +100,7 @@ else if(!empty($_POST['hide'])){
 	$result = $stmt->fetch(PDO::FETCH_ASSOC); //配列としての呼び出し
 
 	   if($result['pass'] == $_POST['pass']){
-	   //もし$ediDataの0に入っている数字が$edit1と等しいとき
+	   //もし$result['pass']に入っている数字が$_POST['pass']と等しいとき
 		$ediname = $_POST['name'];
 		$edicomm = $_POST['comment'];
 		$editime = date("Y/m/d H:i:s");
@@ -112,7 +112,7 @@ else if(!empty($_POST['hide'])){
 	}
 }
 
-else if(!empty($_POST['name']) and !empty($_POST['comment'])){ //and empty($_POST['hide'])){
+else if(!empty($_POST['name']) and !empty($_POST['comment'])){
 //名前欄とコメント欄が空で無いとき//
 	$sql1 ='SELECT * FROM mission4';
 	$result = $pdo -> query($sql1);
@@ -132,7 +132,7 @@ else if(!empty($_POST['name']) and !empty($_POST['comment'])){ //and empty($_POS
 	$pass = $_POST['pass'];
 	$sql->execute();
 
-}//名前とコメントが空じゃ無いときのif文の閉じるやつ
+}//名前とコメントが空では無いときのif文を閉じるかっこ
 
 $sql = 'SELECT * FROM mission4';//表示
 $results = $pdo -> query($sql);
